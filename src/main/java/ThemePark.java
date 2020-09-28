@@ -1,5 +1,7 @@
 import attractions.Attraction;
 import behaviours.IReviewed;
+import behaviours.ISecurity;
+import behaviours.ITicketed;
 import people.Visitor;
 import stalls.Stall;
 
@@ -26,7 +28,7 @@ public class ThemePark {
         this.attractions = attractions;
     }
 
-    public void addAttraction(Attraction attraction) {
+    public void add(Attraction attraction) {
         this.attractions.add(attraction);
     }
 
@@ -38,7 +40,7 @@ public class ThemePark {
         this.stalls = stalls;
     }
 
-    public void addStall(Stall stall) {
+    public void add(Stall stall) {
         this.stalls.add(stall);
     }
 
@@ -67,5 +69,17 @@ public class ThemePark {
             reviews.put(review.getName(), review.getRating());
         }
         return reviews;
+    }
+
+    public ArrayList<IReviewed> getAllAllowedFor(Visitor visitor) {
+        ArrayList<IReviewed> okToGoOn = new ArrayList<>();
+        for (IReviewed reviewed : getAllReviewed()) {
+            if (!(reviewed instanceof ISecurity)) {
+                okToGoOn.add(reviewed);
+            } else if (((ISecurity) reviewed).isAllowed(visitor)) {
+                okToGoOn.add(reviewed);
+            }
+        }
+        return okToGoOn;
     }
 }

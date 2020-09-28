@@ -1,14 +1,12 @@
 import attractions.Attraction;
 import attractions.Dodgems;
+import attractions.Playground;
 import attractions.RollerCoaster;
 import behaviours.IReviewed;
 import org.junit.Before;
 import org.junit.Test;
 import people.Visitor;
-import stalls.CandyflossStall;
-import stalls.IceCreamStall;
-import stalls.ParkingSpot;
-import stalls.Stall;
+import stalls.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +30,7 @@ public class ThemeParkTest {
     @Test
     public void addSingleAttraction() {
         Attraction rollerCoaster =  new RollerCoaster("Loop-de-loopy", 5);
-        themePark.addAttraction(rollerCoaster);
+        themePark.add(rollerCoaster);
         assertEquals(1, themePark.getAttractions().size());
     }
 
@@ -53,7 +51,7 @@ public class ThemeParkTest {
     @Test
     public void addSingleStall() {
         Stall candyfloss =  new CandyflossStall("Floss Is Boss", "Keith", ParkingSpot.A1, 3);
-        themePark.addStall(candyfloss);
+        themePark.add(candyfloss);
         assertEquals(1, themePark.getStalls().size());
     }
 
@@ -69,9 +67,9 @@ public class ThemeParkTest {
     @Test
     public void getReviewed() {
         Attraction rollerCoaster = new RollerCoaster("Loop-de-loopy", 5);
-        themePark.addAttraction(rollerCoaster);
+        themePark.add(rollerCoaster);
         Stall candyfloss =  new CandyflossStall("Floss Is Boss", "Keith", ParkingSpot.A1, 3);
-        themePark.addStall(candyfloss);
+        themePark.add(candyfloss);
         assertEquals(2, themePark.getAllReviewed().size());
     }
 
@@ -87,12 +85,27 @@ public class ThemeParkTest {
     @Test
     public void hashMapOfReviewed() {
         Attraction rollerCoaster = new RollerCoaster("Loop-de-loopy", 5);
-        themePark.addAttraction(rollerCoaster);
+        themePark.add(rollerCoaster);
         Stall candyfloss =  new CandyflossStall("Floss Is Boss", "Keith", ParkingSpot.A1, 3);
-        themePark.addStall(candyfloss);
+        themePark.add(candyfloss);
         HashMap<String, Integer> reviews = themePark.getAllReviews();
         assertEquals((Integer) 5, reviews.get("Loop-de-loopy"));
         assertEquals((Integer) 3, reviews.get("Floss Is Boss"));
+    }
+
+    @Test
+    public void canGetAllAVisitorIsAllowedOn() {
+        Attraction rollerCoaster = new RollerCoaster("Loop-de-loopy", 5);
+        themePark.add(rollerCoaster);
+        Stall candyfloss =  new CandyflossStall("Floss Is Boss", "Keith", ParkingSpot.A1, 3);
+        themePark.add(candyfloss);
+        Stall tobaccoStall = new TobaccoStall("Tomacco", "Homer", ParkingSpot.B4, 5);
+        themePark.add(tobaccoStall);
+        Attraction playground = new Playground("Super Fun World", 2);
+        themePark.add(playground);
+        Visitor visitor = new Visitor(17, 1.40, 10.00);
+        assertEquals(1, themePark.getAllAllowedFor(visitor).size());
+        assertEquals(candyfloss, themePark.getAllAllowedFor(visitor).get(0));
     }
 
 }
