@@ -4,6 +4,7 @@ import attractions.RollerCoaster;
 import behaviours.IReviewed;
 import org.junit.Before;
 import org.junit.Test;
+import people.Visitor;
 import stalls.CandyflossStall;
 import stalls.IceCreamStall;
 import stalls.ParkingSpot;
@@ -71,6 +72,15 @@ public class ThemeParkTest {
         Stall candyfloss =  new CandyflossStall("Floss Is Boss", "Keith", ParkingSpot.A1, 3);
         themePark.addStall(candyfloss);
         assertEquals(2, themePark.getAllReviewed().size());
+    }
+
+    @Test
+    public void visitAttraction() {
+        Attraction rollerCoaster = new RollerCoaster("Oblivion", 5);
+        Visitor visitor = new Visitor(20, 1.85, 60.00);
+        themePark.visit(visitor, rollerCoaster);
+        assertEquals(1, rollerCoaster.getVisitCount());
+        assertEquals(rollerCoaster, visitor.getVisitedAttractions().get(0));
     }
 
 }
