@@ -103,9 +103,10 @@ public class ThemeParkTest {
         themePark.add(tobaccoStall);
         Attraction playground = new Playground("Super Fun World", 2);
         themePark.add(playground);
-        Visitor visitor = new Visitor(17, 1.40, 10.00);
-        assertEquals(1, themePark.getAllAllowedFor(visitor).size());
-        assertEquals(candyfloss, themePark.getAllAllowedFor(visitor).get(0));
+        Visitor visitor = new Visitor(17, 1.50, 10.00);
+        assertEquals(2, themePark.getAllAllowedFor(visitor).size());
+        assertEquals(rollerCoaster, themePark.getAllAllowedFor(visitor).get(0));
+        assertEquals(candyfloss, themePark.getAllAllowedFor(visitor).get(1));
     }
 
 }
