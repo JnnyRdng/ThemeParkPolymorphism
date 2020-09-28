@@ -11,6 +11,7 @@ import stalls.ParkingSpot;
 import stalls.Stall;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 
@@ -81,6 +82,17 @@ public class ThemeParkTest {
         themePark.visit(visitor, rollerCoaster);
         assertEquals(1, rollerCoaster.getVisitCount());
         assertEquals(rollerCoaster, visitor.getVisitedAttractions().get(0));
+    }
+
+    @Test
+    public void hashMapOfReviewed() {
+        Attraction rollerCoaster = new RollerCoaster("Loop-de-loopy", 5);
+        themePark.addAttraction(rollerCoaster);
+        Stall candyfloss =  new CandyflossStall("Floss Is Boss", "Keith", ParkingSpot.A1, 3);
+        themePark.addStall(candyfloss);
+        HashMap<String, Integer> reviews = themePark.getAllReviews();
+        assertEquals((Integer) 5, reviews.get("Loop-de-loopy"));
+        assertEquals((Integer) 3, reviews.get("Floss Is Boss"));
     }
 
 }
